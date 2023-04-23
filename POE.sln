@@ -1,0 +1,157 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    class Recipe 
+    /* Use getters and setters the instance
+        is the recipe and is a public access modifer
+        so they can be accessed from outside the class
+    the setter would be the NumOfIngreidents and the getter would be the Ingreidents 
+     */
+    {
+        public int NumOfIngredients { get; set; } //get,set for NumOfIngreidents 
+        public List<Ingredient> Ingredients { get; set; } // List the number of Ingreidents
+        public int NumOfSteps { get; set; } // List the steps in integers 
+        public List<string> Steps { get; set; }
+
+        public Recipe()
+        {
+            Ingredients = new List<Ingredient>();
+            Steps = new List<string>();
+        }
+
+        public void Print()
+        /*allow the user to print out the recipe which
+         * has the ingredients and steps
+         */
+        {
+            Console.WriteLine("Ingredients:"); //No paramaters so does not take input from users
+            for (int i = 0; i < NumOfIngredients; i++) //Uses a for loop to print out the  name,quantity and unit of measurment
+            {
+                Console.WriteLine($"{Ingredients[i].Name}: {Ingredients[i].Quantity} {Ingredients[i].Unit}");
+            }
+            Console.WriteLine("Steps:");//print out the steps for the user
+            for (int i = 0; i < NumOfSteps; i++)
+            {
+                Console.WriteLine($"{i + 1}.{Steps[i]}"); //for each step it prints out the step number and text of the step
+            }
+        }
+
+        public void Scale(double factor) // Scales the recipe by a factor of 0.5, 2 or 3
+        {
+            foreach (var ingredient in Ingredients) //uses foreach method to iterate all of the ingredients
+            {
+                ingredient.Quantity *= factor; //foreach ingredient it multiplies its quantity by the scalling factor
+            }
+        }
+
+        public void Clear()// this will remove all the ingredients 
+        {
+            NumOfIngredients = 0; // sets the value to 0 so NumOfIngreidents will be cleared
+            Ingredients.Clear(); // Clears all the content in Ingredients when the user wants to clear it
+            NumOfSteps = 0; // sets the value to 0 so steps will be cleared
+            Steps.Clear(); //Clears all the content in Steps when the user wants to clear it
+        }
+
+        public void Scale() // this scale is to reset the code
+        {
+            foreach (var ingredient in Ingredients)
+            {
+                ingredient.Quantity /= 2;
+            }
+        }
+    }
+
+    class Ingredient 
+    /*this getter and setter class calls a string witch
+     * is the name the quantity which is a double and
+     * the unit which is a string 
+     */
+    {
+        public string Name { get; set; }
+        public double Quantity { get; set; }
+        public string Unit { get; set; }
+    }
+
+    static void Main(string[] args)
+    {
+        /* This main  method will open up a menu to add a new recipe,
+         * entering a name,printing it or scaling it
+         *When the user enters an  invalid comment an error is inserted on the console
+         */
+        Recipe recipe = new Recipe(); 
+        while (true)
+        {
+            Console.WriteLine("Sanele's Recipe Book");
+            Console.WriteLine();
+            Console.WriteLine("Pick the command you would like to use (add, print, scale, reset, clear, or quit):");
+            string command = Console.ReadLine();
+
+            switch (command) // using a swtich
+            {
+                case "add": // allows the user to add ingredients 
+                    Console.WriteLine("Enter the number of ingredients you would like to add:");
+                    recipe.NumOfIngredients = int.Parse(Console.ReadLine());
+                    /* This for loop presents the user with a menu of 
+                     * optionns to interact with the recipe NumOfIngridents Class      
+                    */
+
+
+                    for (int i = 0; i < recipe.NumOfIngredients; i++)
+                    {
+                        Console.WriteLine($"Please enter the name of ingredient you would like to insert {i + 1}:");
+                        string name = Console.ReadLine();
+
+                        Console.WriteLine($"Please enter the quantity of ingredient you would like to insert {i + 1}:");
+                        double quantity = double.Parse(Console.ReadLine());
+
+                        Console.WriteLine($"Please enter the unit of ingredient you would like to insert {i + 1}:");
+                        string unit = Console.ReadLine();
+                        //Here the user can enter the details for the recipe(name,quantity,UnitOfMeasurnment
+                        recipe.Ingredients.Add(new Ingredient { Name = name, Quantity = quantity, Unit = unit });
+                    }
+                   
+                    Console.WriteLine("Please enter the number of steps:");
+                    recipe.NumOfSteps = int.Parse(Console.ReadLine());
+
+                    for (int i = 0; i < recipe.NumOfSteps; i++)
+                    {
+                        Console.WriteLine($"Please enter step {i + 1}:");
+                        string step = Console.ReadLine();
+                        recipe.Steps.Add(step);
+                    }
+
+                    break;
+                    //Use a switch statement
+                case "print":
+                    recipe.Print();
+                    break;
+
+                case "scale":
+                    Console.WriteLine("Enter the scaling factor (0.5, 2, or 3):");
+                    double factor = double.Parse(Console.ReadLine());
+                    recipe.Scale(factor);
+                    recipe.Print();
+                    break;
+
+                case "reset":
+                    recipe.Scale();
+                    recipe.Print();
+                    break;
+
+                case "clear":
+                    recipe.Clear();
+                    break;
+
+                case "quit":
+                    return;
+                    //The program exists when the choses the quit option
+                default:
+                    Console.WriteLine("Invalid choice. Please enter a valid choice.");
+                    break;
+            }
+        }
+
+    }
+}
