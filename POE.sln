@@ -54,7 +54,7 @@ class Program
             Steps.Clear(); //Clears all the content in Steps when the user wants to clear it
         }
 
-        public void Scale() // this scale is to reset the code
+        public void Scale() // this scale is to divede the vairable quantites by 2 and reset the recipe
         {
             foreach (var ingredient in Ingredients)
             {
