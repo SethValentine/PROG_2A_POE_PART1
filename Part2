@@ -30,7 +30,7 @@ class Program
 
         public void Print()
         {
-            Console.WriteLine($"Recipe: {RecipeName}");
+            Console.WriteLine($"Recipe: {RecipeName}");//output to ask the name of the recipe
             Console.WriteLine("Ingredients:");
             for (int i = 0; i < NumOfIngredients; i++)
             {
@@ -43,7 +43,7 @@ class Program
             }
         }
 
-        public double CalculateTotalCalories()
+        public double CalculateTotalCalories() // calculates the calrories
         {
             double totalCalories = 0;
             foreach (var ingredient in Ingredients)
@@ -56,11 +56,11 @@ class Program
 
     class Ingredient
     {
-        public string Name { get; set; }
-        public double Quantity { get; set; }
-        public string Unit { get; set; }
-        public double Calories { get; set; }
-        public string FoodGroup { get; set; }
+        public string Name { get; set; } // get, set to get the recipe name
+        public double Quantity { get; set; } // get, set to get the quanity
+        public string Unit { get; set; }// get, set to get unit of measurment
+        public double Calories { get; set; } // get, set to get the calories
+        public string FoodGroup { get; set; } // get,set to add the food group its in
     }
 
     static void Main(string[] args)
