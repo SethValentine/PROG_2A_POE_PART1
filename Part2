@@ -100,13 +100,17 @@ class Program
                         newRecipe.Ingredients.Add(new Ingredient { Name = name, Quantity = quantity, Unit = unit, Calories = calories, FoodGroup = foodGroup });
                     Console.WriteLine("Please enter the number of steps:");
                     recipe.NumOfSteps = int.Parse(Console.ReadLine());
+    Console.WriteLine("Please enter the number of steps:");
+                    newRecipe.NumOfSteps = int.Parse(Console.ReadLine());
 
-                    for (int i = 0; i < recipe.NumOfSteps; i++)
+                    for (int i = 0; i < newRecipe.NumOfSteps; i++)
                     {
                         Console.WriteLine($"Please enter step {i + 1}:");
                         string step = Console.ReadLine();
-                        recipe.Steps.Add(step);
+                        newRecipe.Steps.Add(step);
                     }
+                    recipes.Add(newRecipe);
+                    break;
 
                     break;
                     //Use a switch statement
