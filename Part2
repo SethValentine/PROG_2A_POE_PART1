@@ -72,13 +72,12 @@ class Program
             
             switch (command) // using a swtich
             {
-                case "add": // allows the user to add ingredients 
-                    Console.WriteLine("Enter the number of ingredients you would like to add:");
-                    recipe.NumOfIngredients = int.Parse(Console.ReadLine());
-                    /* This for loop presents the user with a menu of 
-                     * optionns to interact with the recipe NumOfIngridents Class      
-                    */
+                Console.WriteLine("Enter the name of the recipe:");
+                    string recipeName = Console.ReadLine();
+                    Recipe newRecipe = new Recipe(recipeName);
 
+                    Console.WriteLine("Enter the number of ingredients you would like to add:");
+                    newRecipe.NumOfIngredients = int.Parse(Console.ReadLine());
 
                     for (int i = 0; i < recipe.NumOfIngredients; i++)
                     {
