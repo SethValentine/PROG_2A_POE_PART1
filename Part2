@@ -79,20 +79,25 @@ class Program
                     Console.WriteLine("Enter the number of ingredients you would like to add:");
                     newRecipe.NumOfIngredients = int.Parse(Console.ReadLine());
 
-                    for (int i = 0; i < recipe.NumOfIngredients; i++)
+                    }
+                   for (int i = 0; i < newRecipe.NumOfIngredients; i++)
                     {
-                        Console.WriteLine($"Please enter the name of ingredient you would like to insert {i + 1}:");
+                        Console.WriteLine($"Please enter the name of ingredient {i + 1}:");
                         string name = Console.ReadLine();
 
-                        Console.WriteLine($"Please enter the quantity of ingredient you would like to insert {i + 1}:");
+                        Console.WriteLine($"Please enter the quantity of ingredient {i + 1}:");
                         double quantity = double.Parse(Console.ReadLine());
 
-                        Console.WriteLine($"Please enter the unit of ingredient you would like to insert {i + 1}:");
+                        Console.WriteLine($"Please enter the unit of ingredient {i + 1}:");
                         string unit = Console.ReadLine();
-                        //Here the user can enter the details for the recipe(name,quantity,UnitOfMeasurnment
-                        recipe.Ingredients.Add(new Ingredient { Name = name, Quantity = quantity, Unit = unit });
-                    }
-                   
+
+                        Console.WriteLine($"Please enter the number of calories for ingredient {i + 1}:");
+                        double calories = double.Parse(Console.ReadLine());
+
+                        Console.WriteLine($"Please enter the food group for ingredient {i + 1}:");
+                        string foodGroup = Console.ReadLine();
+
+                        newRecipe.Ingredients.Add(new Ingredient { Name = name, Quantity = quantity, Unit = unit, Calories = calories, FoodGroup = foodGroup });
                     Console.WriteLine("Please enter the number of steps:");
                     recipe.NumOfSteps = int.Parse(Console.ReadLine());
 
