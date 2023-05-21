@@ -1,3 +1,6 @@
+// Online C# Editor for free
+// Write, Edit and Run your C# code using C# Online Compiler
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,7 +56,8 @@ class Program
         public double Calories { get; set; }
         public string FoodGroup { get; set; }
     }
-  static void Main(string[] args)
+
+    static void Main(string[] args)
     {
         List<Recipe> recipes = new List<Recipe>();
 
@@ -69,18 +73,17 @@ class Program
 
             string choice = Console.ReadLine();
 
-            
-            switch (command) // using a swtich
+            switch (choice)
             {
-                Console.WriteLine("Enter the name of the recipe:");
+                case "1":
+                    Console.WriteLine("Enter the name of the recipe:");
                     string recipeName = Console.ReadLine();
                     Recipe newRecipe = new Recipe(recipeName);
 
                     Console.WriteLine("Enter the number of ingredients you would like to add:");
                     newRecipe.NumOfIngredients = int.Parse(Console.ReadLine());
 
-                    }
-                   for (int i = 0; i < newRecipe.NumOfIngredients; i++)
+                    for (int i = 0; i < newRecipe.NumOfIngredients; i++)
                     {
                         Console.WriteLine($"Please enter the name of ingredient {i + 1}:");
                         string name = Console.ReadLine();
@@ -98,12 +101,21 @@ class Program
                         string foodGroup = Console.ReadLine();
 
                         newRecipe.Ingredients.Add(new Ingredient { Name = name, Quantity = quantity, Unit = unit, Calories = calories, FoodGroup = foodGroup });
+                    }
+
                     Console.WriteLine("Please enter the number of steps:");
-                    recipe.NumOfSteps = int.Parse(Console.ReadLine());
-    Console.WriteLine("Please enter the number of steps:");
                     newRecipe.NumOfSteps = int.Parse(Console.ReadLine());
 
-                        case "2":
+                    for (int i = 0; i < newRecipe.NumOfSteps; i++)
+                    {
+                        Console.WriteLine($"Please enter step {i + 1}:");
+                        string step = Console.ReadLine();
+                        newRecipe.Steps.Add(step);
+                    }
+                    recipes.Add(newRecipe);
+                    break;
+
+                case "2":
                     if (recipes.Count == 0)
                     {
                         Console.WriteLine("No recipes found.");
@@ -120,31 +132,35 @@ class Program
                         Console.WriteLine("Enter the number of the recipe you want to view:");
                         int recipeIndex = int.Parse(Console.ReadLine()) - 1;
 
+                        if (recipeIndex >= 0 && recipeIndex < recipes.Count)
+                        {
+                            Recipe selectedRecipe = recipes[recipeIndex];
+                            selectedRecipe.Print();
 
-                case "scale":
-                    Console.WriteLine("Enter the scaling factor (0.5, 2, or 3):");
-                    double factor = double.Parse(Console.ReadLine());
-                    recipe.Scale(factor);
-                    recipe.Print();
+                            double totalCalories = selectedRecipe.CalculateTotalCalories();
+                            Console.WriteLine($"Total Calories: {totalCalories}");
+
+                            if (totalCalories > 300)
+                            {
+                                Console.WriteLine("WARNING: This recipe exceeds 300 calories.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid recipe number.");
+                        }
+                    }
                     break;
 
-                case "reset":
-                    recipe.Scale();
-                    recipe.Print();
-                    break;
-
-                case "clear":
-                    recipe.Clear();
-                    break;
-
-                case "quit":
+                case "3":
                     return;
-                    //The program exists when the choses the quit option
+
                 default:
                     Console.WriteLine("Invalid choice. Please enter a valid choice.");
                     break;
             }
-        }
 
+            Console.WriteLine();
+        }
     }
 }
