@@ -69,6 +69,7 @@ class Program
 
             string choice = Console.ReadLine();
 
+            
             switch (command) // using a swtich
             {
                 case "add": // allows the user to add ingredients 
