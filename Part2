@@ -103,20 +103,23 @@ class Program
     Console.WriteLine("Please enter the number of steps:");
                     newRecipe.NumOfSteps = int.Parse(Console.ReadLine());
 
-                    for (int i = 0; i < newRecipe.NumOfSteps; i++)
+                        case "2":
+                    if (recipes.Count == 0)
                     {
-                        Console.WriteLine($"Please enter step {i + 1}:");
-                        string step = Console.ReadLine();
-                        newRecipe.Steps.Add(step);
+                        Console.WriteLine("No recipes found.");
                     }
-                    recipes.Add(newRecipe);
-                    break;
+                    else
+                    {
+                        recipes = recipes.OrderBy(r => r.RecipeName).ToList();
+                        Console.WriteLine("Recipes:");
+                        for (int i = 0; i < recipes.Count; i++)
+                        {
+                            Console.WriteLine($"{i + 1}. {recipes[i].RecipeName}");
+                        }
 
-                    break;
-                    //Use a switch statement
-                case "print":
-                    recipe.Print();
-                    break;
+                        Console.WriteLine("Enter the number of the recipe you want to view:");
+                        int recipeIndex = int.Parse(Console.ReadLine()) - 1;
+
 
                 case "scale":
                     Console.WriteLine("Enter the scaling factor (0.5, 2, or 3):");
