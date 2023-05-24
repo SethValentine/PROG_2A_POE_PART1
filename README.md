@@ -223,3 +223,27 @@ If the user enters an invalid command, the program will display an error message
 
 My GitHub Repository
 https://github.com/SethValentine/PROG_2A_POE_PART1
+    
+Part 2
+For this part of the poe we have to use the code we have and update it with the requirments that they ask for.The requirments are:
+1. The user shall be able to enter an unlimited number of recipes.
+2. The user shall be able to enter a name for each recipe.
+3. The software shall display a list of all the recipes to the user in alphabetical order by name.
+4. The user can choose which recipe to display from the list.
+5. For each ingredient, the user shall additionally be able to enter:
+a. The number of calories, and
+b. The food group that the ingredient belongs to.
+6. The software shall calculate and display the total calories of all the ingredients in a recipe.
+7. The software shall notify the user when the total calories of a recipe exceed 300. 
+Non-functional requirements:
+8. You are required to use internationally acceptable coding standards. Include
+comprehensive comments explaining variable names, methods, and the logic of
+programming code.
+9. You are required to use classes.
+22; 23; 24 2023
+© The Independent Institute of Education (Pty) Ltd 2023
+Page 7 of 24
+10. You must use generic collections to store the recipes, ingredients, steps, and no longer
+arrays.
+11. You are required to use a delegate to notify the user when a recipe exceeds 300 calories.
+12. You are required to create a unit test to test the total calory calculation. 
