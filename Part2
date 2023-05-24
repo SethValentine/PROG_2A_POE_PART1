@@ -1,5 +1,3 @@
-// Online C# Editor for free
-// Write, Edit and Run your C# code using C# Online Compiler
 
 using System;
 using System.Collections.Generic;
@@ -16,9 +14,9 @@ class Program
     would be the Ingreidents 
     */
     {
-        public string RecipeName { get; set; }  // get,set to enter name of the recipe
+        public string RecipeName { get; set; } // get,set to enter name of the recipe
         public int NumOfIngredients { get; set; } //get,set for NumOfIngreidents 
-        public List<Ingredient> Ingredients { get; set; } // List the number of Ingreidents
+        public List<Ingredient> Ingredients { get; set; }// List the number of Ingreidents
         public int NumOfSteps { get; set; } // List the steps in integers 
         public List<string> Steps { get; set; }
 
@@ -35,7 +33,7 @@ class Program
             Console.WriteLine("Ingredients:");
             for (int i = 0; i < NumOfIngredients; i++)
             {
-                Console.WriteLine($"{Ingredients[i].Name}: {Ingredients[i].Quantity} {Ingredients[i].Unit}");
+                Console.WriteLine($"{Ingredients[i].Name}: {Ingredients[i].Quantity} {Ingredients[i].Unit} ({Ingredients[i].FoodGroup})");
             }
             Console.WriteLine("Steps:");
             for (int i = 0; i < NumOfSteps; i++)
@@ -44,7 +42,7 @@ class Program
             }
         }
         // calculates the calrories of the recipe
-        public double CalculateTotalCalories() 
+        public double CalculateTotalCalories()
         {
             double totalCalories = 0;
             foreach (var ingredient in Ingredients)
@@ -53,19 +51,52 @@ class Program
             }
             return totalCalories;
         }
+
+        public delegate void RecipeCalorieNotification(); // using delagate feature for calorie notifcation
+
+        public RecipeCalorieNotification NotifyCalorieExceedance;
+
+
+        public void ExplainCalorieRange()
+        {
+            double totalCalories = CalculateTotalCalories();
+            Console.WriteLine($"Total Calories: {totalCalories}");
+
+            if (totalCalories < 100)
+            {
+                Console.ForegroundColor = ConsoleColor.Green; // shows a green colour when its low in calroies
+                Console.WriteLine("This recipe is low in calories.");
+                Console.ResetColor();
+            }
+            else if (totalCalories >= 100 && totalCalories <= 300) // will show that the calories are moderate amount in calroies
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow; // shows a yellow colour when its moderate in calroies
+                Console.WriteLine("This recipe has a moderate amount of calories.");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;  // shows a red colour when the user has 
+                Console.WriteLine("This recipe is high in calories.");
+                Console.ResetColor();
+
+                NotifyCalorieExceedance?.Invoke();
+            }
+        }
     }
     // Class showing the ingreidents
     class Ingredient
     {
         public string Name { get; set; } // get, set to get the recipe name
         public double Quantity { get; set; } // get, set to get the quanity
-        public string Unit { get; set; }// get, set to get unit of measurment
+        public string Unit { get; set; } // get, set to get unit of measurment
         public double Calories { get; set; } // get, set to get the calories
         public string FoodGroup { get; set; } // get,set to add the food group its in
     }
-    private static readonly List<string> AvailableFoodGroups = new List<string> { "Fruits", "Vegetables", "Grains", "Proteins", "Dairy", "Fats and Oils" };
-
     // Display available food group options
+    private static readonly List<string> AvailableFoodGroups = new List<string> { "Starchy foods", "Vegetables and fruits", "Dry beans, peas, lentils and soya", "Chicken, fish, meat and eggs", "Milk and dairy products", "Fats and Oils", "Water" };
+
+
     public static void DisplayFoodGroupOptions()
     {
         Console.WriteLine("Available Food Groups:");
@@ -75,13 +106,15 @@ class Program
         }
     }
 
-        static void Main(string[] args)
+    static void Main(string[] args)
     {
         List<Recipe> recipes = new List<Recipe>();
         /* 
-        Used to store the recipe which grows
-        dynamically and can store unlimited recipes 
-        */
+       Used to store the recipe which grows
+       dynamically and can store unlimited recipes 
+       */
+
+
         while (true)
         {
             Console.WriteLine("Sanele's Recipe Book");
@@ -94,16 +127,24 @@ class Program
 
             string choice = Console.ReadLine();
 
-            switch (choice) // using a switch case
+            switch (choice)
             {
                 case "1":
                     // allows the user to enter the name of the recipe
-                    Console.WriteLine("Enter the name of the recipe:"); 
+                    Console.WriteLine("Enter the name of the recipe:");
                     string recipeName = Console.ReadLine();
                     Recipe newRecipe = new Recipe(recipeName);
+
                     // shows the number of ingreidents
                     Console.WriteLine("Enter the number of ingredients you would like to add:");
-                    newRecipe.NumOfIngredients = int.Parse(Console.ReadLine());
+
+                    //use exception when a user enters an invalid input like a non-numeric value
+                    if (!int.TryParse(Console.ReadLine(), out int numOfIngredients))
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid number.");
+                        break;
+                    }
+                    newRecipe.NumOfIngredients = numOfIngredients;
 
                     for (int i = 0; i < newRecipe.NumOfIngredients; i++)
                     {
@@ -111,22 +152,50 @@ class Program
                         string name = Console.ReadLine();
 
                         Console.WriteLine($"Please enter the quantity of ingredient {i + 1}:");
-                        double quantity = double.Parse(Console.ReadLine());
+
+                        //use exception when a user enters an invalid input like a non-numeric value
+                        if (!double.TryParse(Console.ReadLine(), out double quantity))
+                        {
+                            Console.WriteLine("Invalid input. Please enter a valid number.");
+                            break;
+                        }
 
                         Console.WriteLine($"Please enter the unit of ingredient {i + 1}:");
                         string unit = Console.ReadLine();
 
                         Console.WriteLine($"Please enter the number of calories for ingredient {i + 1}:");
-                        double calories = double.Parse(Console.ReadLine());
+                        //use exception when a user enters an invalid input like a non-numeric value
+                        if (!double.TryParse(Console.ReadLine(), out double calories))
+                        {
+                            Console.WriteLine("Invalid input. Please enter a valid number.");
+                            break;
+                        }
 
-                        Console.WriteLine($"Please enter the food group for ingredient {i + 1}:");
-                        string foodGroup = Console.ReadLine();
+
+                        Console.WriteLine($"Please select the food group for ingredient {i + 1}:");
+                        DisplayFoodGroupOptions();
+
+                        //use exception when a user enters an invalid input like a non-numeric value
+                        if (!int.TryParse(Console.ReadLine(), out int foodGroupIndex) || foodGroupIndex < 1 || foodGroupIndex > AvailableFoodGroups.Count)
+                        {
+                            Console.WriteLine("Invalid input. Please enter a valid number.");
+                            break;
+                        }
+
+                        string foodGroup = AvailableFoodGroups[foodGroupIndex];
 
                         newRecipe.Ingredients.Add(new Ingredient { Name = name, Quantity = quantity, Unit = unit, Calories = calories, FoodGroup = foodGroup });
                     }
 
                     Console.WriteLine("Please enter the number of steps:");
-                    newRecipe.NumOfSteps = int.Parse(Console.ReadLine());
+
+                    //use exception when a user enters an invalid input like a non-numeric value
+                    if (!int.TryParse(Console.ReadLine(), out int numOfSteps))
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid number.");
+                        break;
+                    }
+                    newRecipe.NumOfSteps = numOfSteps;
 
                     for (int i = 0; i < newRecipe.NumOfSteps; i++)
                     {
@@ -134,9 +203,11 @@ class Program
                         string step = Console.ReadLine();
                         newRecipe.Steps.Add(step);
                     }
+
                     recipes.Add(newRecipe);
                     break;
-                    // display no recipes found if recipe is not there
+
+                // display no recipes found if recipe is not there
                 case "2":
                     if (recipes.Count == 0)
                     {
@@ -145,9 +216,8 @@ class Program
                     else
                     {
                         recipes = recipes.OrderBy(r => r.RecipeName).ToList();
-                        
                         //OrderBy method stores the recipes in Alphabetical
-                      
+
                         Console.WriteLine("Recipes:");
                         for (int i = 0; i < recipes.Count; i++)
                         {
@@ -155,28 +225,16 @@ class Program
                         }
 
                         Console.WriteLine("Enter the number of the recipe you want to view:");
-                        int recipeIndex = int.Parse(Console.ReadLine()) - 1;
-                        // if statement to calculate the calroies if its above 300
-                        if (recipeIndex >= 0 && recipeIndex < recipes.Count)
-                        {
-                            Recipe selectedRecipe = recipes[recipeIndex];
-                            selectedRecipe.Print();
-                            
-                            double totalCalories = selectedRecipe.CalculateTotalCalories();
-                            Console.WriteLine($"Total Calories: {totalCalories}");
 
-                            if (totalCalories > 300)
-                            {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("WARNING: This recipe exceeds 300 calories.");
-                                // after viewing gives a display if it exceeds 300 calories
-                                Console.ResetColor();
-                            }
-                        }
-                        else
+                        //use exception when a user enters an invalid input like a non-numeric value
+                        if (!int.TryParse(Console.ReadLine(), out int recipeIndex) || recipeIndex < 1 || recipeIndex > recipes.Count)
                         {
                             Console.WriteLine("Invalid recipe number.");
+                            break;
                         }
+                        Recipe selectedRecipe = recipes[recipeIndex - 1];
+                        selectedRecipe.Print();
+                        selectedRecipe.ExplainCalorieRange();
                     }
                     break;
 
@@ -191,4 +249,69 @@ class Program
             Console.WriteLine();
         }
     }
+
+
+
+static void RunUnitTest()
+{
+    Recipe recipe = new Recipe("Scrambled eggs");
+    recipe.NumOfIngredients = 3;
+    recipe.Ingredients = new List<Ingredient>
+        {
+            new Ingredient { Name = "egg", Quantity = 2, Unit = "grams", Calories = 150, FoodGroup = "Chicken, fish, meat and eggs" },
+            new Ingredient { Name = "butter", Quantity = 1, Unit = "tablespoon", Calories = 102, FoodGroup = "Milk and dairy products" },
+            new Ingredient { Name = "Parsley", Quantity = 1, Unit = "teaspoon", Calories = 1, FoodGroup = "Vegetables and fruits" }
+        };
+    recipe.NumOfSteps = 3;
+    recipe.Steps = new List<string> { "Start by chopping the parsley really finely. Then beat the eggs in a bowl with salt and pepper.", "Heat a pan on the stove and melt the butter in it.scramble the eggs and keep stirring till they are done and cooked to your liking.", "Remove from the pan into a plate and finish with the fresh parsley" };
+    // Expected output:
+    // Recipe: Scrambled eggs
+    // Ingredients:
+    // Egg: 150 grams (Chicken, fish, meat and eggs)
+    // Butter: 102 tablespoon (Chicken, fish, meat and eggs)
+    // Parsley: 1 teaspoon (Vegetables and fruits)
+    // Steps:
+    // 1. Start by chopping the parsley really finely. Then beat the eggs in a bowl with salt and pepper
+    // 2. Heat a pan on the stove and melt the butter in it.scramble the eggs and keep stirring till they are done and cooked to your liking
+    // 3. Remove from the pan into a plate and finish with the fresh parsley
+
+    Console.WriteLine("Test 1:");
+    recipe.Print();
+
+    // Test 2: Calculate total calories of the recipe
+    // Expected output: Total Calories: 154
+    Console.WriteLine("Test 2:");
+    double totalCalories = recipe.CalculateTotalCalories();
+    Console.WriteLine($"Total Calories: {totalCalories}");
+
+    // Test 3: Explain calorie range of the recipe
+    // Expected output: This recipe is moderate in calories.
+    Console.WriteLine("Test 3:");
+    recipe.ExplainCalorieRange();
+
+    // Test 4: Add a recipe with no ingredients or steps
+    Recipe emptyRecipe = new Recipe("Empty Recipe");
+    emptyRecipe.NumOfIngredients = 0;
+    emptyRecipe.NumOfSteps = 0;
+
+    // Expected output:
+    // Recipe: Empty Recipe
+    // Ingredients:
+    // Steps:
+    Console.WriteLine("Test 4:");
+    emptyRecipe.Print();
+
+     // Test 5: Calculate total calories of the empty recipe
+    // Expected output: Total Calories: 0
+    Console.WriteLine("Test 5:");
+    totalCalories = emptyRecipe.CalculateTotalCalories();
+    Console.WriteLine($"Total Calories: {totalCalories}");
+
+     // Test 6: Explain calorie range of the empty recipe
+    // Expected output: This recipe is low in calories.
+    Console.WriteLine("Test 6:");
+    emptyRecipe.ExplainCalorieRange();
 }
+}
+
+
