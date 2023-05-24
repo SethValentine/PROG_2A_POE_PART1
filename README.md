@@ -240,10 +240,25 @@ Non-functional requirements:
 comprehensive comments explaining variable names, methods, and the logic of
 programming code.
 9. You are required to use classes.
-22; 23; 24 2023
-© The Independent Institute of Education (Pty) Ltd 2023
-Page 7 of 24
 10. You must use generic collections to store the recipes, ingredients, steps, and no longer
 arrays.
 11. You are required to use a delegate to notify the user when a recipe exceeds 300 calories.
 12. You are required to create a unit test to test the total calory calculation. 
+
+How to Compile and Run the Software.
+
+I have edited my code from part 1 and made to how they want it for part 2 so my code starts out printing the same as how it is for part 1 with Sanales Recipe Book
+Difference is now when run the program it will start with 3 instructions where you can add recipe, view recipes or exit.
+When you click 1 for adding a recipe it will direct you to add a recipe
+Now you can enter the name for the recipe which they ask for in the requirments
+Then you enter the number of ingreidents like in part 1
+then you can enter the name of that ingredient
+then the quantity of the ingredient
+then the unit of measurment 
+then for part 2 we have to add the calrories and also add the different food groups that people can pick from
+at the end you can view the recipe and it will tell you how much calories are there all together in the view recipes
+    
+How my code is run    
+
+    
+
