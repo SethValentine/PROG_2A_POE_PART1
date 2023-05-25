@@ -160,7 +160,7 @@ class Program
                             break;
                         }
 
-                        Console.WriteLine($"Please enter the unit of ingredient {i + 1}:");
+                        Console.WriteLine($"Please enter the unit of measurment for the ingredient {i + 1}:");
                         string unit = Console.ReadLine();
 
                         Console.WriteLine($"Please enter the number of calories for ingredient {i + 1}:");
@@ -252,66 +252,65 @@ class Program
 
 
 
-static void RunUnitTest()
-{
-    Recipe recipe = new Recipe("Scrambled eggs");
-    recipe.NumOfIngredients = 3;
-    recipe.Ingredients = new List<Ingredient>
+    static void RunUnitTest()
+    {
+        Recipe recipe = new Recipe("Scrambled eggs");
+        recipe.NumOfIngredients = 3;
+        recipe.Ingredients = new List<Ingredient>
         {
             new Ingredient { Name = "egg", Quantity = 2, Unit = "grams", Calories = 150, FoodGroup = "Chicken, fish, meat and eggs" },
             new Ingredient { Name = "butter", Quantity = 1, Unit = "tablespoon", Calories = 102, FoodGroup = "Milk and dairy products" },
             new Ingredient { Name = "Parsley", Quantity = 1, Unit = "teaspoon", Calories = 1, FoodGroup = "Vegetables and fruits" }
         };
-    recipe.NumOfSteps = 3;
-    recipe.Steps = new List<string> { "Start by chopping the parsley really finely. Then beat the eggs in a bowl with salt and pepper.", "Heat a pan on the stove and melt the butter in it.scramble the eggs and keep stirring till they are done and cooked to your liking.", "Remove from the pan into a plate and finish with the fresh parsley" };
-    // Expected output:
-    // Recipe: Scrambled eggs
-    // Ingredients:
-    // Egg: 150 grams (Chicken, fish, meat and eggs)
-    // Butter: 102 tablespoon (Chicken, fish, meat and eggs)
-    // Parsley: 1 teaspoon (Vegetables and fruits)
-    // Steps:
-    // 1. Start by chopping the parsley really finely. Then beat the eggs in a bowl with salt and pepper
-    // 2. Heat a pan on the stove and melt the butter in it.scramble the eggs and keep stirring till they are done and cooked to your liking
-    // 3. Remove from the pan into a plate and finish with the fresh parsley
+        recipe.NumOfSteps = 3;
+        recipe.Steps = new List<string> { "Start by chopping the parsley really finely. Then beat the eggs in a bowl with salt and pepper.", "Heat a pan on the stove and melt the butter in it.scramble the eggs and keep stirring till they are done and cooked to your liking.", "Remove from the pan into a plate and finish with the fresh parsley" };
+        // Expected output:
+        // Recipe: Scrambled eggs
+        // Ingredients:
+        // Egg: 150 grams (Chicken, fish, meat and eggs)
+        // Butter: 102 tablespoon (Chicken, fish, meat and eggs)
+        // Parsley: 1 teaspoon (Vegetables and fruits)
+        // Steps:
+        // 1. Start by chopping the parsley really finely. Then beat the eggs in a bowl with salt and pepper
+        // 2. Heat a pan on the stove and melt the butter in it.scramble the eggs and keep stirring till they are done and cooked to your liking
+        // 3. Remove from the pan into a plate and finish with the fresh parsley
 
-    Console.WriteLine("Test 1:");
-    recipe.Print();
+        Console.WriteLine("Test 1:");
+        recipe.Print();
 
-    // Test 2: Calculate total calories of the recipe
-    // Expected output: Total Calories: 154
-    Console.WriteLine("Test 2:");
-    double totalCalories = recipe.CalculateTotalCalories();
-    Console.WriteLine($"Total Calories: {totalCalories}");
+        // Test 2: Calculate total calories of the recipe
+        // Expected output: Total Calories: 154
+        Console.WriteLine("Test 2:");
+        double totalCalories = recipe.CalculateTotalCalories();
+        Console.WriteLine($"Total Calories: {totalCalories}");
 
-    // Test 3: Explain calorie range of the recipe
-    // Expected output: This recipe is moderate in calories.
-    Console.WriteLine("Test 3:");
-    recipe.ExplainCalorieRange();
+        // Test 3: Explain calorie range of the recipe
+        // Expected output: This recipe is moderate in calories.
+        Console.WriteLine("Test 3:");
+        recipe.ExplainCalorieRange();
 
-    // Test 4: Add a recipe with no ingredients or steps
-    Recipe emptyRecipe = new Recipe("Empty Recipe");
-    emptyRecipe.NumOfIngredients = 0;
-    emptyRecipe.NumOfSteps = 0;
+        // Test 4: Add a recipe with no ingredients or steps
+        Recipe emptyRecipe = new Recipe("Empty Recipe");
+        emptyRecipe.NumOfIngredients = 0;
+        emptyRecipe.NumOfSteps = 0;
 
-    // Expected output:
-    // Recipe: Empty Recipe
-    // Ingredients:
-    // Steps:
-    Console.WriteLine("Test 4:");
-    emptyRecipe.Print();
+        // Expected output:
+        // Recipe: Empty Recipe
+        // Ingredients:
+        // Steps:
+        Console.WriteLine("Test 4:");
+        emptyRecipe.Print();
 
-     // Test 5: Calculate total calories of the empty recipe
-    // Expected output: Total Calories: 0
-    Console.WriteLine("Test 5:");
-    totalCalories = emptyRecipe.CalculateTotalCalories();
-    Console.WriteLine($"Total Calories: {totalCalories}");
+        // Test 5: Calculate total calories of the empty recipe
+        // Expected output: Total Calories: 0
+        Console.WriteLine("Test 5:");
+        totalCalories = emptyRecipe.CalculateTotalCalories();
+        Console.WriteLine($"Total Calories: {totalCalories}");
 
-     // Test 6: Explain calorie range of the empty recipe
-    // Expected output: This recipe is low in calories.
-    Console.WriteLine("Test 6:");
-    emptyRecipe.ExplainCalorieRange();
+        // Test 6: Explain calorie range of the empty recipe
+        // Expected output: This recipe is low in calories.
+        Console.WriteLine("Test 6:");
+        emptyRecipe.ExplainCalorieRange();
+    }
 }
-}
-
 
