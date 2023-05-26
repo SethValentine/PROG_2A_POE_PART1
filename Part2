@@ -41,16 +41,9 @@ class Program
                 Console.WriteLine($"{i + 1}. {Steps[i]}");
             }
         }
-        // calculates the calrories of the recipe
-        public double CalculateTotalCalories()
-        {
-            double totalCalories = 0;
-            foreach (var ingredient in Ingredients)
-            {
-                totalCalories += ingredient.Calories;
-            }
-            return totalCalories;
-        }
+       
+      
+       
 
         public delegate void RecipeCalorieNotification(); // using delagate feature for calorie notifcation
 
@@ -59,7 +52,9 @@ class Program
 
         public void ExplainCalorieRange()
         {
-            double totalCalories = CalculateTotalCalories();
+            RecipeCalculator calculator =  new RecipeCalculator();
+            double totalCalories = calculator.CalculateTotalCalories(Ingredients);
+
             Console.WriteLine($"Total Calories: {totalCalories}");
 
             if (totalCalories < 100)
@@ -93,6 +88,20 @@ class Program
         public double Calories { get; set; } // get, set to get the calories
         public string FoodGroup { get; set; } // get,set to add the food group its in
     }
+
+    // Class for calculating recipe-related values
+    class RecipeCalculator
+    {
+        public double CalculateTotalCalories(List<Ingredient> ingredients)
+        {
+            double totalCalories = 0;
+            foreach (var ingredient in ingredients)
+            {
+                totalCalories += ingredient.Calories;
+            }
+            return totalCalories;
+        }
+    }
     // Display available food group options
     private static readonly List<string> AvailableFoodGroups = new List<string> { "Starchy foods", "Vegetables and fruits", "Dry beans, peas, lentils and soya", "Chicken, fish, meat and eggs", "Milk and dairy products", "Fats and Oils", "Water" };
 
@@ -122,7 +131,8 @@ class Program
             Console.WriteLine("Pick the command you would like to use:");
             Console.WriteLine("1. Add Recipe");
             Console.WriteLine("2. View Recipes");
-            Console.WriteLine("3. Exit");
+            Console.WriteLine("3. Clear");
+            Console.WriteLine("4. Exit");
             Console.Write("Enter your choice: ");
 
             string choice = Console.ReadLine();
@@ -239,6 +249,12 @@ class Program
                     break;
 
                 case "3":
+                    // clear recipe
+                    recipes.Clear();
+                    Console.WriteLine("Recipes Cleared.");
+                    return;
+                case "4":
+                    // Exit
                     return;
 
                 default:
@@ -249,68 +265,7 @@ class Program
             Console.WriteLine();
         }
     }
-
-
-
-    static void RunUnitTest()
-    {
-        Recipe recipe = new Recipe("Scrambled eggs");
-        recipe.NumOfIngredients = 3;
-        recipe.Ingredients = new List<Ingredient>
-        {
-            new Ingredient { Name = "egg", Quantity = 2, Unit = "grams", Calories = 150, FoodGroup = "Chicken, fish, meat and eggs" },
-            new Ingredient { Name = "butter", Quantity = 1, Unit = "tablespoon", Calories = 102, FoodGroup = "Milk and dairy products" },
-            new Ingredient { Name = "Parsley", Quantity = 1, Unit = "teaspoon", Calories = 1, FoodGroup = "Vegetables and fruits" }
-        };
-        recipe.NumOfSteps = 3;
-        recipe.Steps = new List<string> { "Start by chopping the parsley really finely. Then beat the eggs in a bowl with salt and pepper.", "Heat a pan on the stove and melt the butter in it.scramble the eggs and keep stirring till they are done and cooked to your liking.", "Remove from the pan into a plate and finish with the fresh parsley" };
-        // Expected output:
-        // Recipe: Scrambled eggs
-        // Ingredients:
-        // Egg: 150 grams (Chicken, fish, meat and eggs)
-        // Butter: 102 tablespoon (Chicken, fish, meat and eggs)
-        // Parsley: 1 teaspoon (Vegetables and fruits)
-        // Steps:
-        // 1. Start by chopping the parsley really finely. Then beat the eggs in a bowl with salt and pepper
-        // 2. Heat a pan on the stove and melt the butter in it.scramble the eggs and keep stirring till they are done and cooked to your liking
-        // 3. Remove from the pan into a plate and finish with the fresh parsley
-
-        Console.WriteLine("Test 1:");
-        recipe.Print();
-
-        // Test 2: Calculate total calories of the recipe
-        // Expected output: Total Calories: 154
-        Console.WriteLine("Test 2:");
-        double totalCalories = recipe.CalculateTotalCalories();
-        Console.WriteLine($"Total Calories: {totalCalories}");
-
-        // Test 3: Explain calorie range of the recipe
-        // Expected output: This recipe is moderate in calories.
-        Console.WriteLine("Test 3:");
-        recipe.ExplainCalorieRange();
-
-        // Test 4: Add a recipe with no ingredients or steps
-        Recipe emptyRecipe = new Recipe("Empty Recipe");
-        emptyRecipe.NumOfIngredients = 0;
-        emptyRecipe.NumOfSteps = 0;
-
-        // Expected output:
-        // Recipe: Empty Recipe
-        // Ingredients:
-        // Steps:
-        Console.WriteLine("Test 4:");
-        emptyRecipe.Print();
-
-        // Test 5: Calculate total calories of the empty recipe
-        // Expected output: Total Calories: 0
-        Console.WriteLine("Test 5:");
-        totalCalories = emptyRecipe.CalculateTotalCalories();
-        Console.WriteLine($"Total Calories: {totalCalories}");
-
-        // Test 6: Explain calorie range of the empty recipe
-        // Expected output: This recipe is low in calories.
-        Console.WriteLine("Test 6:");
-        emptyRecipe.ExplainCalorieRange();
-    }
 }
 
+
+    
