@@ -27,7 +27,7 @@ class Program
             Steps = new List<string>();
         }
 
-        public void Print()
+        public void Print() // print the details
         {
             Console.WriteLine($"Recipe: {RecipeName}");//output to ask the name of the recipe
             Console.WriteLine("Ingredients:");
