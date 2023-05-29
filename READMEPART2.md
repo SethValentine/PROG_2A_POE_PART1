@@ -312,6 +312,16 @@ If the user enters an invalid input, such as a non-numeric value, the program wi
 If the user enters a recipe name that already exists, the program will not handle it and may cause issues.
 If the user enters an ingredient with a negative quantity or calories, the program will not handle it and may cause issues.
  This is a detailed discription how to complile and run the software
+ 
+ # Brief description  based on the lecturers feedback.
+After we have submitted part 1 we got feedback from our lecturer on how we can improve for part 2 and what changes we can make.
+I  have made the following changes to improve my code.
+Firstly regarding github i made more commits and descriptons on the commits i have to improve my coding standard from 5 commits i now have 24 commits from improving my code.
+My error handling has improved as a have multiple exceptions for when the user wants to enter the details of the recipe so if they enter a string instead of an int it will take them back to the menu to enter it properly and states Invalid input. Please enter a valid number.
+Next i have made an input to add coloured text in the display which i previously did not have so  now when the user enters calroies below 100 it will show in green text saying this recipe has low calroies and if its between 100 and  300 it will be yellow text saying it is a moderate amount of calories and red would be when it exceeds to over 300 calories.
+Clearing the recipes was always although i did not ask the user to confirm if they want clear the recipe, now i have added if they want to clear the recipe or not with Y/N.
+i have made now 3 classes to store it in a logical way so that it can be easy to follow when reading the code.
+That was all the changes Sir asked me to make and i have went through and try to better my work.
 
  My GitHub Repository
   https://github.com/SethValentine/PROG_2A_POE_PART1
