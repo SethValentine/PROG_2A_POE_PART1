@@ -1,0 +1,48 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+
+namespace RecipeBook
+{
+    public partial class MainWindow : Window
+    {
+        private List<Recipe> recipes;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            recipes = new List<Recipe>();
+        }
+
+        private void AddRecipeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Recipe newRecipe = new Recipe();
+
+        }
+
+        private void ViewRecipesButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            recipes.Clear();
+            
+        }
+    }
+
+    public class Ingredient
+    {
+        public string Name { get; set; }
+        public double Quantity { get; set; }
+        public string Unit { get; set; }
+        public double Calories { get; set; }
+        public string FoodGroup { get; set; }
+
+        
+    }
+}
