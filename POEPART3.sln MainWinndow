@@ -1,4 +1,3 @@
-using RecipeBook;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,16 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace POE3
+
+namespace POEPART3NEW
 {
     public partial class Form1 : Form
     {
         private List<Recipe> recipes;
-
         public Form1()
         {
             InitializeComponent();
-
             recipes = new List<Recipe>();
         }
 
@@ -40,61 +38,74 @@ namespace POE3
                 double calories = (double)caloriesnumericUpDown1.Value;
                 string foodGroup = foodgroupcomboBox1.Text;
 
-               // newRecipe.Ingredients.Add(new Ingredient { Name = name, Quantity = quantity, Unit = unit, Calories = calories, FoodGroup = foodGroup });
+                newRecipe.Ingredients.Add(new Ingredient { Name = name, Quantity = quantity, Unit = unit, Calories = calories, FoodGroup = foodGroup });
             }
 
             for (int i = 0; i < numOfSteps; i++)
             {
                 string step = stepstextBox1.Text;
-              //  newRecipe.Steps.Add(step);
+                  newRecipe.Steps.Add(step);
             }
 
             recipes.Add(newRecipe);
 
             MessageBox.Show("Recipe added successfully!", "Recipe Book", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            ClearForm();
+          ClearForm();
         }
-        private void quantitylabel1_Click(object sender, EventArgs e)
+        private void ViewRecipeButtonbutton1_Click(object sender, EventArgs e)
         {
+            if (recipes.Count == 0)
+            {
+                MessageBox.Show("No recipes found.", "Recipe Book", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
+            RecipeSelectionForm selectionForm = new RecipeSelectionForm(recipes);
+
+            if (selectionForm.ShowDialog() == DialogResult.OK)
+            {
+                Recipe selectedRecipe = selectionForm.SelectedRecipe;
+
+                RecipeDetailsForm detailsForm = new RecipeDetailsForm(selectedRecipe);
+                detailsForm.ShowDialog();
+            }
         }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void Clearbutton1_Click(object sender, EventArgs e)
         {
-
+            recipes.Clear();
+            MessageBox.Show("Recipes cleared.", "Recipe Book", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
-        private void Form1_Load(object sender, EventArgs e)
+        private void ClearForm()
         {
+            RecipeNametextBox1.Text = string.Empty;
+            numOfIngredientsnumericUpDown1.Value = 0;
+            numOfStepsnumericUpDown1.Value = 0;
 
-        }
+            nametextBox1.Clear();
+           // quantitynumericUpDown1.Clear();
+            unittextBox1.Clear();
+           // caloriesnumericUpDown1.Clear();
+           // foodgroupcomboBox1.Clear();
 
-        private void stepspanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void RecipeNametextBox1_TextChanged(object sender, EventArgs e)
-        {
-            
-
-              
-            
-
+            stepstextBox1.Clear();
         }
 
         private void numOfIngredientsnumericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             int numOfIngredients = (int)numOfIngredientsnumericUpDown1.Value;
 
-            ingredientspanel1.Controls.Clear();
-         //   ingredientspanel1.RowStyles.Clear();
+            ingredientsTableLayoutPanel.Controls.Clear();
+           // ingredientsTableLayoutPanel.RowStyles.Clear();
 
             RecipeNametextBox1.Clear();
-          //  numOfIngredientsnumericUpDown1.Clear();
-          //  numOfStepsnumericUpDown1.Clear();
-          //  caloriesnumericUpDown1.Clear();
-          //  foodgroupcomboBox1.Clear();
+            numOfIngredientsnumericUpDown1.Value = 0;
+            numOfStepsnumericUpDown1.Value = 0;
+
+
+            //   numOfIngredientsnumericUpDown1.Clear();
+            // numOfStepsnumericUpDown1.Clear();
+            //  caloriesnumericUpDown1.Clear();
+            // foodgroupcomboBox1.Clear();
 
             for (int i = 0; i < numOfIngredients; i++)
             {
@@ -104,7 +115,7 @@ namespace POE3
 
                 TextBox nameTextBox = new TextBox();
                 nameTextBox.Anchor = AnchorStyles.Left;
-             //   RecipeNametextBox1.Add(nameTextBox);
+                RecipeNametextBox1.Add(nameTextBox);
 
                 Label quantityLabel = new Label();
                 quantityLabel.Text = "Quantity:";
@@ -113,7 +124,7 @@ namespace POE3
                 NumericUpDown quantityNumericUpDown = new NumericUpDown();
                 quantityNumericUpDown.DecimalPlaces = 2;
                 quantityNumericUpDown.Anchor = AnchorStyles.Left;
-             //   quantitynumericUpDown1.Add(quantityNumericUpDown);
+                quantitynumericUpDown1.Add(quantityNumericUpDown);
 
                 Label unitLabel = new Label();
                 unitLabel.Text = "Unit:";
@@ -121,7 +132,7 @@ namespace POE3
 
                 TextBox unitTextBox = new TextBox();
                 unitTextBox.Anchor = AnchorStyles.Left;
-              //  unittextBox1.Add(unitTextBox);
+                unittextBox1.Add(unitTextBox);
 
                 Label caloriesLabel = new Label();
                 caloriesLabel.Text = "Calories:";
@@ -130,7 +141,7 @@ namespace POE3
                 NumericUpDown caloriesNumericUpDown = new NumericUpDown();
                 caloriesNumericUpDown.DecimalPlaces = 2;
                 caloriesNumericUpDown.Anchor = AnchorStyles.Left;
-             //   caloriesnumericUpDown1.Add(caloriesNumericUpDown);
+                caloriesnumericUpDown1.Add(caloriesNumericUpDown);
 
                 Label foodGroupLabel = new Label();
                 foodGroupLabel.Text = "Food Group:";
@@ -140,30 +151,29 @@ namespace POE3
                 foodGroupComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
                 foodGroupComboBox.Items.AddRange(new string[] { "Fruits", "Vegetables", "Grains", "Protein", "Dairy", "Fats/Oils", "Sweets" });
                 foodGroupComboBox.Anchor = AnchorStyles.Left;
-            //    foodgroupcomboBox1.Add(foodGroupComboBox);
+                   foodgroupcomboBox1.Add(foodGroupComboBox);
 
-             //   ingredientspanel1.RowCount++;
-               // ingredientspanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                  ingredientsTableLayoutPanel.RowCount++;
+                ingredientsTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
-              //  ingredientspanel1.Controls.Add(nameLabel, 0, i);
-              //  ingredientspanel1.Controls.Add(nameTextBox, 1, i);
-              //  ingredientspanel1.Controls.Add(quantityLabel, 2, i);
-              //  ingredientspanel1.Controls.Add(quantityNumericUpDown, 3, i);
-               // ingredientspanel1.Controls.Add(unitLabel, 4, i);
-               // ingredientspanel1.Controls.Add(unitTextBox, 5, i);
-              //  ingredientspanel1.Controls.Add(caloriesLabel, 6, i);
-              //  ingredientspanel1.Controls.Add(caloriesNumericUpDown, 7, i);
-              //  ingredientspanel1.Controls.Add(foodGroupLabel, 8, i);
-             //   ingredientspanel1.Controls.Add(foodGroupComboBox, 9, i);
+                ingredientsTableLayoutPanel.Controls.Add(nameLabel, 0, i);
+                ingredientsTableLayoutPanel.Controls.Add(nameTextBox, 1, i);
+                ingredientsTableLayoutPanel.Controls.Add(quantityLabel, 2, i);
+                ingredientsTableLayoutPanel.Controls.Add(quantityNumericUpDown, 3, i);
+                ingredientsTableLayoutPanel.Controls.Add(unitLabel, 4, i);
+                ingredientsTableLayoutPanel.Controls.Add(unitTextBox, 5, i);
+                ingredientsTableLayoutPanel.Controls.Add(caloriesLabel, 6, i);
+                ingredientsTableLayoutPanel.Controls.Add(caloriesNumericUpDown, 7, i);
+                ingredientsTableLayoutPanel.Controls.Add(foodGroupLabel, 8, i);
+                ingredientsTableLayoutPanel.Controls.Add(foodGroupComboBox, 9, i);
             }
         }
-
         private void numOfStepsnumericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             int numOfSteps = (int)numOfStepsnumericUpDown1.Value;
 
-            stepspanel1.Controls.Clear();
-        //    stepspanel1.RowStyles.Clear();
+            stepsTableLayoutPanel.Controls.Clear();
+            stepsTableLayoutPanel.RowStyles.Clear();
 
             stepstextBox1.Clear();
 
@@ -177,102 +187,23 @@ namespace POE3
                 stepTextBox.Multiline = true;
                 stepTextBox.Anchor = AnchorStyles.Left;
                 stepTextBox.Height = 60;
-          //      stepstextBox1.Add(stepTextBox);
+                 stepstextBox1.Add(stepTextBox);
 
-             //   stepspanel1.RowCount++;
-              //  stepspanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                 stepsTableLayoutPanel.RowCount++;
+                 stepsTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
-              //  stepspanel1.Controls.Add(stepLabel, 0, i);
-              //  stepspanel1.Controls.Add(stepTextBox, 1, i);
+                 stepsTableLayoutPanel.Controls.Add(stepLabel, 0, i);
+                  stepsTableLayoutPanel.Controls.Add(stepTextBox, 1, i);
             }
         }
-
-        private void nametextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void namelabel1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ingredientspanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void quantitynumericUpDown1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void caloriesnumericUpDown1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void foodgrouplabel1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void foodgroupcomboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void stepslabel1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void stepstextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        
         
 
-        private void ViewRecipeButtonbutton1_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void Clearbutton1_Click(object sender, EventArgs e)
-        {
-            recipes.Clear();
-            MessageBox.Show("Recipes cleared.", "Recipe Book", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void ClearForm()
-        {
-            RecipeNametextBox1.Text = string.Empty;
-            numOfIngredientsnumericUpDown1.Value = 0;
-            numOfStepsnumericUpDown1.Value = 0;
-
-            nametextBox1.Clear();
-       //    quantitynumericUpDown1.Clear();
-            unittextBox1.Clear();
-          //  caloriesnumericUpDown1.Clear();
-        //   foodgroupcomboBox1.Clear();
-
-            stepstextBox1.Clear();
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void RecipeNametextBox1_Click(object sender, EventArgs e)
-        {
-
-        }
+       
     }
 }
