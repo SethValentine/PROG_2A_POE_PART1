@@ -26,3 +26,5 @@ I used execption handling in my gui when the user enters the recipe details so t
 I made sure to store all the details in the List and made a seprate folder to call that list.
 I structed my code well have comments in all my code wear necessary, aswell as have no errors in the code so that it fuctions.
 
+# link to GitHub repository
+https://github.com/SethValentine/PROG_2A_POE_PART1
